@@ -1,0 +1,9 @@
+.idea/
+log/
+composer.phar
+composer.lock
+vendor/
+uploads/
+.htaccess
+config.ini
+fabfile.py

@@ -1,0 +1,20 @@
+{% extends 'admin/layout.twig' %}
+{% block title %}Все видео{% endblock %}
+
+{% block body %}
+<table class="table">
+    <tbody>
+    {% for video in videos %}
+    <tr>
+        <td>
+            <a href="{{ app.urlFor('video', {'id': video.id}) }}">
+                {{ video.title }}
+            </a>
+        </td>
+        <td>{{ video.type }}</td>
+        <td><code>{{ video.preview_url }}</code></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

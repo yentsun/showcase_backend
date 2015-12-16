@@ -1,0 +1,51 @@
+{% extends 'admin/layout.twig' %}
+{% block title %}Лоты{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>название</th>
+        <th>тип</th>
+        <th></th>
+        <th>ID</th>
+    </tr>
+    </thead>
+    <tbody id="lot_list">
+    {% for lot in lots %}
+    <tr id="lots_{{ lot.id }}">
+        <td>
+            <div class="handle"></div>
+            <a href="{{ app.urlFor('lot', {'id': lot.id}) }}">
+                {{ lot.title }}
+            </a>
+        </td>
+        <td>{{ lot.type }}</td>
+        <td>{% if lot.status==0 %}
+                <span title="не опубликован"
+                      class="glyphicon glyphicon-eye-close"
+                      aria-hidden="true"></span>
+            {% endif %}
+        </td>
+        <td><code title="ID/slug">{{ lot.id }}</code></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript"
+        src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var lot_list = $("#lot_list");
+        lot_list.sortable({
+            handle: '.handle',
+            stop : function(event, ui){
+                $.post('{{ app.urlFor('lot_order') }}',
+                       $(this).sortable('serialize'));
+            }
+        });
+        lot_list.disableSelection();
+    });//ready
+</script>
+{% endblock %}

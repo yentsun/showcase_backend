@@ -1,0 +1,152 @@
+{% extends "admin/layout.twig" %}
+
+{% block title %}
+    {% if new %}
+        Новый лот
+    {% else %}
+        Лот "{{lot.title}}"
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<form role="form" method="post" enctype="multipart/form-data"
+      action="
+                  {% if lot.id %}
+                  {{ app.urlFor('lot', {'id': lot.id}) }}
+                  {%  else %}
+                  {{ app.urlFor('lot_post') }}
+                  {% endif %}
+                  ">
+    <div class="form-group">
+        <label for="title">Название</label>
+        <input type="text" class="form-control" id="title"
+               name="title"
+               value="{{ lot.title }}">
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-9">
+            <label for="type">Тип</label>
+            <input type="text" class="form-control" id="type"
+                   name="type"
+                   value="{{ lot.type }}">
+        </div>
+        <div class="col-lg-3 checkbox" style="margin-top: 2em">
+            <label>
+                <input name="rent" type="checkbox" value="1"
+                        {% if lot.rent==1 %} checked{% endif %}>
+                под аренду
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" rows="6"
+                  name="description"
+                  id="description">{{ lot.description }}</textarea>
+    </div>
+    <div class="form-group">
+        {% if lot.preview_url %}
+        <img height="200" class="pull-right"
+             src="{{ app.config('path_prefix') }}/{{ lot.preview_url }}" alt=""/>
+        {% endif %}
+        <label for="preview">Превью</label>
+        <input type="file" id="preview" name="preview">
+    </div>
+    <div class="form-group" style="margin-top: 150px">
+        <label for="gallery_url">URL галереи</label>
+        <input type="text" class="form-control" id="gallery_url"
+               name="gallery_url"
+               value="{{ lot.gallery_url }}">
+    </div>
+    <div class="form-group">
+        <label for="gallery_url">Модель тура</label>
+        <input type="text" class="form-control" id="tour_model"
+               name="tour_model"
+               value="{{ lot.tour_model }}">
+    </div>
+    <div class="form-group">
+        <label for="address">Адрес</label>
+        <input type="text" class="form-control" id="address"
+               name="address"
+               value="{{ lot.address }}">
+    </div>
+    <div class="form-group">
+        <label for="sq_total">Общая площадь</label>
+        <input type="text" class="form-control" id="sq_total"
+               name="sq_total"
+               value="{{ lot.sq_total }}">
+    </div>
+    <div class="form-group">
+        <label for="sq_live">Жилая площадь</label>
+        <input type="text" class="form-control" id="sq_live"
+               name="sq_live"
+               value="{{ lot.sq_live }}">
+    </div>
+    <div class="form-group">
+        <label for="sq_kitchen">Площадь кухни</label>
+        <input type="text" class="form-control" id="sq_kitchen"
+               name="sq_kitchen"
+               value="{{ lot.sq_kitchen }}">
+    </div>
+    <div class="form-group">
+        <label for="rooms">Кол-во комнат</label>
+        <input type="text" class="form-control" id="rooms"
+               name="rooms"
+               value="{{ lot.rooms }}">
+    </div>
+    <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="text" class="form-control" id="price"
+               name="price"
+               value="{{ lot.price }}">
+    </div>
+    <div class="form-group">
+        <label for="seller">Продавец</label>
+        <input type="text" class="form-control" id="seller"
+               name="seller"
+               value="{{ lot.seller }}">
+    </div>
+    <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="text" class="form-control" id="phone"
+               name="phone"
+               value="{{ lot.phone }}">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email"
+               name="email"
+               value="{{ lot.email }}">
+    </div>
+    <div class="form-group">
+        <label for="website">Веб-сайт</label>
+        <input type="text" class="form-control" id="website"
+               name="website"
+               value="{{ lot.website }}">
+    </div>
+    <hr style="margin-top: 3em">
+    <button type="submit"
+            class="btn btn-primary pull-right">
+        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+        Сохранить
+    </button>
+
+    <div class="checkbox pull-right" style="margin-right: 2em">
+        <label>
+            <input name="status" type="checkbox" value="1"
+                    {% if lot.status==1 or new %} checked{% endif %}>
+            опубликован
+        </label>
+    </div>
+
+    {% if not new %}
+    <a href="{{ app.urlFor('delete_lot', {'id': lot.id}) }}"
+       style="margin-right: 1em; color: red"
+       onclick="return confirm('Вы уверены?')"
+       class="btn btn-link pull-left">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        Удалить
+    </a>
+    {% endif %}
+</form>
+{% endblock %}
